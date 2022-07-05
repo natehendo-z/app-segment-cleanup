@@ -3,7 +3,7 @@ Removes duplicate application segments with "-#" appended to name.
 
 
 ## What's the problem?
-Clients reporting duplicate application segments are being generated with "-#" appended at the end of the name, i.e. HS-Servers-inbound-1, HS-Servers-inbound-2, etc.  This causes policy bloat and clutters app segment list.
+Clients reporting that duplicate application segments are being generated with "-#" appended at the end of the name, i.e. HS-Servers-inbound-1, HS-Servers-inbound-2, etc.  This causes policy bloat and clutters app segment list.
 
 
 
