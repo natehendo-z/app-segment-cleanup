@@ -3,7 +3,7 @@ Removes duplicate application segments with "-#" appended to name.
 
 
 ## What's the problem?
-We have clients reporting that duplicate application segments are being generated with "-#" appended at the end of the name, i.e. HS-Servers-inbound-1, HS-Servers-inbound-2, etc.  This causes policy bloat and clutters app segment list.
+Clients reporting duplicate application segments are being generated with "-#" appended at the end of the name, i.e. HS-Servers-inbound-1, HS-Servers-inbound-2, etc.  This causes policy bloat and clutters app segment list.
 
 
 
@@ -31,7 +31,7 @@ All functions are documented in the code comments.
 
 **Script outcome:**
 - Find all app segments that have associated "-#" segments. (duplicates)
-- Allow setting and clearing a filter to limit search results.  If there is a filter, Merge and delete operations will only execute against what search   returns.
+- Allow setting and clearing a filter to limit search results.  If there is a filter, merge and delete operations will only execute against what search   returns.
 - Allow Merge and Delete (Option 3)
   - Combines appNames, hosts, collectionsForHosts, and collectionsForApps across all duplicate segments and merges them to the orignal base segment.
   - Deletes associated duplicate segments
