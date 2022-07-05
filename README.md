@@ -21,13 +21,13 @@ Doing this multiple times will produce more duplicate segments.
 
 ## Cleanup Script Instructions
 
-Setup:
+**Setup:**
 This script is designed to be run from within the api-examples/v1/python/ repo.  This script is dependent on config.yaml, edgeutils.py, cert.pem, and key.pem.
 
-Documentation:
+**Documentation:**
 All functions are documented in the code comments.  
 
-Script outcome:
+**Script outcome:**
 - Find all app segments that have associated "-#" segments. (duplicates)
 - Allow setting and clearing a filter to limit search results.  If there is a filter, Merge and delete operations will only execute against what search   returns.
 - Merge and Delete (Option 3)
