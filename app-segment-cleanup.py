@@ -10,21 +10,28 @@ with open('config.yaml') as f:
     config = yaml.safe_load(f)
     api = ApiSession(config)
 
-## API Call Functions ##
+## API ##
 
-# Initial API call to get collections
 def getCollectionsApi():
+    '''
+    Calls API for collections and stores in collection_list
+    '''
     global collection_list
     collection_list = api.get('collections')['content']
 
-# Get collections from local JSON file, this will limit repeat calls during testing.
 def getCollectionsLocal():
+    '''
+    Get collections from local JSON file, this will limit repeat calls during testing.
+    '''
     global collection_list
     with open('JSON/my_collection.json') as f:
         collection_list = json.load(f)
 
-# Send update payload to all segments in base_list (staggered by 1 second)
 def updateBase(update_list):
+    '''
+    Loops through contents of update_list and updates base segments.  This is called merge in the menu.
+    Loop is delayed by one second for each update to limit API rate.
+    '''
     for segment in update_list:
         api.put('collections/' + segment['id'], segment)
         print("Updated: {}".format(segment['name']))
@@ -33,8 +40,11 @@ def updateBase(update_list):
     print("Update Operation Complete.")
     time.sleep(2)
 
-# Remove duplicate segments using delete_list as payload (staggered by 1 second)
 def deleteDuplicate(delete_list):
+    '''
+    Loops through contents of delete_list and deletes duplicate segments.  This is called delete in the menu.
+    Loop is delayed by one second for each update to limit API rate.
+    '''
     for id in delete_list:
         delete_payload = ['{}'.format(id)]
         api.put('collections/bulk-delete', delete_payload)
@@ -48,7 +58,10 @@ def deleteDuplicate(delete_list):
 
 def buildCollectionSets(collection_list):
     '''
-    Builds a list of collections that are members of the filter_search.
+    Filters collection_list for any segment that is "HOST_APP" type and matches the regex pattern "-\d+".
+    All base segment names that have duplicates will be appended to "base_list".
+    For each segment in "base_list" all duplicates with the same base name are appended to "duplicate_list".
+    Sorts both lists.
     '''
  
     global base_list
@@ -132,12 +145,13 @@ def buildDeleteList(duplicate_list):
 
 ## Menu Functions ##
 
-# Prints display of all segments found with duplicate, if a filter_list is set, results are limited to filter_list
-def printSearch():
-    # Correct matching group numbers when filtered
-    n = 1 # Search increment starts at 1
-    print()
 
+def printSearch():
+    '''
+    Prints display of all segments found with duplicate, if a filter_list is set, results are limited to filter_list
+    '''
+    n = 1 
+    print()
     if update_list:
         print()
         for segment in update_list:
@@ -155,9 +169,14 @@ def printSearch():
         print()
         print("No duplicate application segments found...")
         print()
+        print("Exiting application.")
+        time.sleep(2)
+        os.sys.exit()
         
-# Prints menu options
 def menuOptions():
+    '''
+    Prints menu options to screen.
+    '''
     global filter_search
     print()
     print("--------Options----------")
@@ -173,8 +192,11 @@ def menuOptions():
     print("7. Diag")
     print()
 
-# Handle user input from main menu
+
 def getSelection():
+    '''
+    Gets user selection from options menu.  Returns selection as string.   
+    '''
     option_list = ['1', '2', '3', '4', '5', '6', '7']
     selection = input("Choose an option: 1 - 7\n")
     if selection in option_list:
@@ -186,6 +208,9 @@ def getSelection():
     return selection
 
 def filterReset():
+    '''
+    
+    '''
     global filter_search
     global filter_list
     filter_search = ''
@@ -197,6 +222,9 @@ def diagnostic():
     os.system('clear')
     
     while diag:
+        '''
+        Used for testing and troubleshooting.  Prints out all variables and their values.  Can be used to debug.  
+        '''
         # Print all lists
         print("-----diagnostic-----")
         print()
@@ -237,10 +265,11 @@ def diagnostic():
 
 
 ## Main Loop ##
-# TODO: Upload source to github with readme and share
-# TODO: Add rollback feature that will save current segment list to a file and restore it on demand.  This will allow you to rollback to a previous state if something goes wrong.
 
 def main():
+    '''
+    Main loop.  Handles user input and calls functions.
+    '''
     run = True
 
     getCollectionsApi()
@@ -396,15 +425,11 @@ main()
         
         
 ## Function Summary
-# getCollectionsApi(): Call API and store contents for collections.
-# buildCollectionSets(): Creates list to store segment names for comparisons.
 # buildUpdateList(): Builds list of dictionaries used as payloads to update base segments.
-# buildDeleteList(): Loops through duplicate_list and creates delete payload.
 # printSearch(): Displays search results.  First run shows all segments found with one or more duplicates.  Filter can be applied to limit search results.
 # menuOptions(): Prints available menu options to screen
 # getSelection(): Handles user input for menuOptions()
 # updateBase(): Updates all base name segments.  If filter is set, update is limited to what is specified in filter.
-# deleteDuplicate(): Deletes all duplicate segment.  If filter is set, delete is limited to what is specified in filter.
 # main(): Main loop, executes functions based on menu selection.
 # diagnostic(): Diagnostic function that prints contents of all lists. (Used for testing/troublshooting)
 # filterReset(): Resets filter_list values.  Used when user wants to reset filter_list
