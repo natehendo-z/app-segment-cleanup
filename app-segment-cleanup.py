@@ -67,11 +67,10 @@ def buildCollectionSets(collection_list):
     global base_list
     global duplicate_list
 
-    # Clear list to avoid duplication
+    # Clear lists at beginning to avoid duplication on rerun.
     base_list = []
     duplicate_list = []
 
-    # Enumerate segments in collection_list that are of type 'HOST_APP' and includes "-#" in segment name
     for collection in collection_list:
         if collection['query']['type'] == 'HOST_APP' and re.search(regex, collection['name']):
             
@@ -82,12 +81,11 @@ def buildCollectionSets(collection_list):
                     base_list.append(collection['name'][:-2])
 
             # Append segments to base_list and duplicate_list with filter_list check.
-            if filter_list and collection['name'][:-2] in filter_list:
+            elif filter_list and collection['name'][:-2] in filter_list:
                 duplicate_list.append(collection['name'])
                 if collection['name'][:-2] not in base_list:
                     base_list.append(collection['name'][:-2])
 
-    # Sort both lists
     base_list.sort()
     duplicate_list.sort()
 
@@ -102,7 +100,6 @@ def buildUpdateList(base_list, collection_list):
     update_list = []
     for collection in collection_list:
         if collection['name'] in base_list:
-            # append a copy of the collection to the update_list
             update_list.append(collection)
                   
     for collection in collection_list:
@@ -148,7 +145,7 @@ def buildDeleteList(duplicate_list):
 
 def printSearch():
     '''
-    Prints display of all segments found with duplicate, if a filter_list is set, results are limited to filter_list
+    Prints display of all segments found with duplicate, if a filter_list is set, results are limited to filter_list.
     '''
     n = 1 
     print()
@@ -161,7 +158,7 @@ def printSearch():
                 if segment['name'] == duplicate[:-2]:
                     print(" > {}".format(duplicate))
             print()
-            n += 1 # Increment search item number
+            n += 1
         print()
         print("Search found {} application segment(s) that have one or more duplicates".format(len(update_list)))
         print()
@@ -209,7 +206,7 @@ def getSelection():
 
 def filterReset():
     '''
-    
+    Reset filter_search to empty string.  Called when user selects option 2.
     '''
     global filter_search
     global filter_list
@@ -218,6 +215,8 @@ def filterReset():
 
 # Used for testing and troubleshooting
 def diagnostic():
+
+
     diag = True
     os.system('clear')
     
@@ -268,7 +267,7 @@ def diagnostic():
 
 def main():
     '''
-    Main loop.  Handles user input and calls functions.
+    Main loop.  Prompts user for options and calls functions based on selection.
     '''
     run = True
 
@@ -423,21 +422,5 @@ delete_list = [] # used to create delete_payload for duplicate segments
 
 main()
         
-        
-## Function Summary
-# buildUpdateList(): Builds list of dictionaries used as payloads to update base segments.
-# printSearch(): Displays search results.  First run shows all segments found with one or more duplicates.  Filter can be applied to limit search results.
-# menuOptions(): Prints available menu options to screen
-# getSelection(): Handles user input for menuOptions()
-# updateBase(): Updates all base name segments.  If filter is set, update is limited to what is specified in filter.
-# main(): Main loop, executes functions based on menu selection.
-# diagnostic(): Diagnostic function that prints contents of all lists. (Used for testing/troublshooting)
-# filterReset(): Resets filter_list values.  Used when user wants to reset filter_list
 
-## List definitions
-# base_list: List of base segment names
-# duplicate_list: List of duplicate segment names
-# filter_list: List of segment names that match filter_search
-# collection_list: List of collections returned by getCollectionsApi()
-# update_list: List of dictionaries used as payloads to update base segments
-# delete_list: List of dictionaries used as payload to delete duplicate segments
+
