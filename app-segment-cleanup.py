@@ -258,7 +258,7 @@ def diagnostic():
 
     # Save update_list as JSON/update_list.json for easier viewing
     doc = json.dumps(update_list, indent=4)
-    with open('JSON/update_list.json', 'w') as g:   
+    with open('JSON/update_list.json', 'w') as g:
         g.write(doc)
         g.close()
 
