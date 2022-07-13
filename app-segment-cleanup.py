@@ -413,12 +413,12 @@ def main():
 # Global vars
 base_list = [] # track segment names that don't include "-#" (Base Segments)
 duplicate_list = [] # track segment names that include "-#" (Duplicates)
-regex = r'-\d+' # Used to match segments in collection_list that include "-#" in the name
+regex = r'-\d+' # Used to match segments in collection_list that have "-#" appended to the end of the segment name
 filter_search = '' # Input filter string from user
 filter_list = [] # filters search to only include segments that match the filter_search text
 collection_list = [] # list of collections of type "HOST_APP" and matching regex, returned by getCollections()
-update_list = [] # used as a reference for filtering and updating search results.
-delete_list = [] # used to create delete_payload for duplicate segments
+update_list = [] # List of dictionaries representing the total base segments returned in search. Used as payload for "Merge".
+delete_list = [] # List of IDs for duplicate segments returned in search.  Used as payload for "Delete".
 
 main()
         
