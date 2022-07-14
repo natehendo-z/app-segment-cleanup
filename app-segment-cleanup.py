@@ -38,6 +38,7 @@ def updateBase(update_list):
         time.sleep(1)
     print()
     print("Update Operation Complete.")
+    print()
     time.sleep(2)
 
 def deleteDuplicate(delete_list):
@@ -52,6 +53,7 @@ def deleteDuplicate(delete_list):
         time.sleep(1)
     print()
     print("Delete Operation Complete.")
+    print()
     time.sleep(2)
 
 ## Logic ##
