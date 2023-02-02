@@ -32,13 +32,13 @@ All functions are documented in the code comments.
 **Script outcome:**
 - Find all app segments that have associated "-#" segments. (duplicates)
 - Allow setting and clearing a filter to limit search results.  If there is a filter, merge and delete operations will only execute against what search   returns.
-- Allow Merge and Delete (Option 3)
+- Merge and Delete (Option 3)
   - Combines appNames, hosts, collectionsForHosts, and collectionsForApps across all duplicate segments and merges them to the orignal base segment.
   - Deletes associated duplicate segments
-- Allow Merge Only (Option 4)
+- Merge Only (Option 4)
   - Combines appNames, hosts, collectionsForHosts, and collectionsForApps across all duplicate segments and merges them to the orignal base segment.
   - Does not delete duplicate segments
-- Allow Delete Only (Option 5)
+- Delete Only (Option 5)
   - Does not merge to base segment
   - Deletes associated duplicate segments
 
